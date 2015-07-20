@@ -47,7 +47,7 @@ angular.module('starter.controllers', [])
     $http.get("http://ajax.googleapis.com/ajax/services/feed/load", {
         params: {
           "v": "1.0",
-          "q": "http://blog.nraboy.com/feed/"
+          "q": "http://attachmentnetwork.ca/feed/"
         }
       })
       .success(function(data) {
@@ -60,6 +60,8 @@ angular.module('starter.controllers', [])
         console.log("ERROR: " + data);
       });
   }
+
+  $scope.init();
 
 })
 
