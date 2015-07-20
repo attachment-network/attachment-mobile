@@ -1,0 +1,12 @@
+<ion-view view-title="News">
+  <ion-content>
+    <ion-list>
+
+      <ion-item ng-repeat="entry in entries" href="#/app/playlists/{{playlist.id}}">
+        <b>{{entry.title}}</b>
+        <br>
+        <span ng-bind-html="entry.contentSnippet"></span>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

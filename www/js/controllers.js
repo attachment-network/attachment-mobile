@@ -9,26 +9,6 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
-  // Form data for the login modal
-  $scope.loginData = {};
-
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
-
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
-
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log('Doing login', $scope.loginData);
@@ -41,7 +21,32 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('PlaylistsCtrl', function($http, $scope) {
+.controller('EventsController', function($http, $scope) {
+
+  $scope.init = function() {
+    $http.get("http://ajax.googleapis.com/ajax/services/feed/load", {
+        params: {
+          "v": "1.0",
+          "q": "http://attachmentnetwork.ca/events/feed/"
+        }
+      })
+      .success(function(data) {
+        $scope.rssTitle = data.responseData.feed.title;
+        $scope.rssUrl = data.responseData.feed.feedUrl;
+        $scope.rssSiteUrl = data.responseData.feed.link;
+        $scope.entries = data.responseData.feed.entries;
+      })
+      .error(function(data) {
+        console.log("ERROR: " + data);
+      });
+  }
+
+  $scope.init();
+
+})
+
+
+.controller('NewsController', function($http, $scope) {
 
   $scope.init = function() {
     $http.get("http://ajax.googleapis.com/ajax/services/feed/load", {
@@ -64,5 +69,30 @@ angular.module('starter.controllers', [])
   $scope.init();
 
 })
+
+.controller('ShopController', function($http, $scope) {
+
+  $scope.init = function() {
+    $http.get("http://ajax.googleapis.com/ajax/services/feed/load", {
+        params: {
+          "v": "1.0",
+          "q": "http://attachmentnetwork.ca/shop/feed/"
+        }
+      })
+      .success(function(data) {
+        $scope.rssTitle = data.responseData.feed.title;
+        $scope.rssUrl = data.responseData.feed.feedUrl;
+        $scope.rssSiteUrl = data.responseData.feed.link;
+        $scope.entries = data.responseData.feed.entries;
+      })
+      .error(function(data) {
+        console.log("ERROR: " + data);
+      });
+  }
+
+  $scope.init();
+
+})
+
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {});
