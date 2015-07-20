@@ -41,16 +41,26 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
+.controller('PlaylistsCtrl', function($http, $scope) {
+
+  $scope.init = function() {
+    $http.get("http://ajax.googleapis.com/ajax/services/feed/load", {
+        params: {
+          "v": "1.0",
+          "q": "http://blog.nraboy.com/feed/"
+        }
+      })
+      .success(function(data) {
+        $scope.rssTitle = data.responseData.feed.title;
+        $scope.rssUrl = data.responseData.feed.feedUrl;
+        $scope.rssSiteUrl = data.responseData.feed.link;
+        $scope.entries = data.responseData.feed.entries;
+      })
+      .error(function(data) {
+        console.log("ERROR: " + data);
+      });
+  }
+
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
-});
+.controller('PlaylistCtrl', function($scope, $stateParams) {});
